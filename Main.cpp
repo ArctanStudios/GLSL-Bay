@@ -13,9 +13,10 @@ const char* vertexShaderSource =
 "}\0";
 const char* fragmentShaderSource =
 "#version 330 core\n"
+"in vec4 FragCoord;\n"
 "out vec4 FragColor;\n"
 "void main() {\n"
-"FragColor = vec4(0.0f, 0.0f, 0.0f, 1.0f);\n"
+"FragColor = vec4(FragCoord.x*255, 0.0f, 0.0f, 1.0f);\n"
 "}\0";
 
 int main() {
@@ -73,6 +74,7 @@ int main() {
 	ImGui::StyleColorsDark();
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 330");
+	ImFont* firacode = io.Fonts->AddFontFromFileTTF("assets\\FiraCode-Regular.ttf", 16);
 
 	while (!glfwWindowShouldClose(window)) {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -86,8 +88,10 @@ int main() {
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
+		ImGui::PushFont(firacode);
 		ImGui::Begin("GLSL ImGui Test Window");
 		ImGui::Text("Test text");
+		ImGui::PopFont();
 		ImGui::End();
 
 		ImGui::Render();
