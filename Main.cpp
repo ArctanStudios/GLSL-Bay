@@ -15,7 +15,7 @@ const char* fragmentShaderSource =
 "#version 330 core\n"
 "out vec4 FragColor;\n"
 "void main() {\n"
-"FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);\n"
+"FragColor = vec4(0.0f, 0.0f, 0.0f, 1.0f);\n"
 "}\0";
 
 int main() {
@@ -77,12 +77,29 @@ int main() {
 	while (!glfwWindowShouldClose(window)) {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		ImGui::Begin("GLSL ImGui Test Window");
+		ImGui::Text("Test text");
+		ImGui::End();
+
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
+
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
 
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
