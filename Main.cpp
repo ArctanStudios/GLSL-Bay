@@ -22,12 +22,12 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	GLfloat vertices[] = {
-		-0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,
-		0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,
-		0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f
+		-1.0f, -4.0f, 0.0f,
+		-1.0f, 1.0f, 0.0f,
+		4.0f, 1.0f, 0.0f
 	};
 
-	GLFWwindow* window = glfwCreateWindow(512, 512, "Test", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(768*2, 768, "Test", NULL, NULL);
 	if (window == NULL) {
 		std::cout << "Failed to create GLFW Window" << std::endl;
 		glfwTerminate();
@@ -36,7 +36,7 @@ int main() {
 	glfwMakeContextCurrent(window);
 
 	gladLoadGL();
-	glViewport(0, 0, 512, 512);
+	glViewport(0, 0, 768*2, 768);
 
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
