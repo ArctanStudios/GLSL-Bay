@@ -1,3 +1,6 @@
+#include"imgui.h"
+#include"imgui_impl_glfw.h"
+#include"imgui_impl_opengl3.h"
 #include<iostream>
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
@@ -64,9 +67,12 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-	glfwSwapBuffers(window);
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGui::StyleColorsDark();
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init("#version 330");
 
 	while (!glfwWindowShouldClose(window)) {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
