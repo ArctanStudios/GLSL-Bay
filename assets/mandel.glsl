@@ -6,50 +6,47 @@ uniform vec3 iResolution;
 uniform vec4 iMouse;
 uniform float iTime;
 
-vec2 complexMult(vec2 a, vec2 b) {
-	return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x);
+float opRevolution(vec3 p, float o)
+{
+    vec2 q = vec2( length(p.xz) - o, p.y );
+    return primitive(q)
 }
 
-float testMandelbrot(vec2 coord) {
-    const int iterations = 912;
-	vec2 testPoint = vec2(0,0);
-	for (int i = 0; i < iterations; i++){
-		testPoint = complexMult(testPoint,testPoint) + coord;
-        float ndot = dot(testPoint,testPoint);
-		if (ndot > 45678.0) {
-            float sl = float(i) - log2(log2(ndot))+4.0;
-			return sl/float(iterations);
-		}
-	}
-	return 0.0;
+vec3 sdMandelbrot(vec2 p) {
+    vec2 c = p;
+    vec2 z = vec2(0.0,0.0);
+    vec2 dz = vec2(0.0,0.0);
+    bool exterior = false;
+    float r2;
+    float n = 0.0;
+    for( int i = 0; i<1024; i++ ) {
+        // dz -> 2·z·dz + 1
+        dz = 2.0*vec2(z.x*dz.x - z.y*dz.y, z.x*dz.y + z.y*dz.x) + vec2(1.0,0.0);
+        // z -> z² + c
+        z = vec2(z.x*z.x - z.y*z.y, 2.0*z.x*z.y) + c;
+        
+        n += 1.0;
+        r2 = dot(z,z);
+        if( r2>65536.0 ) {
+            exterior = true;
+            break;
+        }
+    }
+    float en = exp2(n);
+    float d = 0.5*sqrt(r2/dot(dz,dz))*en*(1.0-pow(r2,-1.0/en));
+    return (exterior) ? vec3(d, z) : vec3(0.0, z);
 }
 
-vec4 mapColor(float mcol) {
-    return vec4(0.5 + 0.5*cos(2.7+mcol*30.0 + vec3(0.0,.6,1.0)),1.0);
+vec3 estimateNormal(vec3 p) {
+    return normalize(vec3(
+        sceneSDF(vec3(p.x + EPSILON, p.y, p.z)) - sceneSDF(vec3(p.x - EPSILON, p.y, p.z)),
+        sceneSDF(vec3(p.x, p.y + EPSILON, p.z)) - sceneSDF(vec3(p.x, p.y - EPSILON, p.z)),
+        sceneSDF(vec3(p.x, p.y, p.z  + EPSILON)) - sceneSDF(vec3(p.x, p.y, p.z - EPSILON))
+    ));
 }
-const float offsetsD = .35;
-
-const vec2 offsets[4] = vec2[](
-    vec2(-offsetsD,-offsetsD),
-    vec2(offsetsD,offsetsD),
-    vec2(-offsetsD,offsetsD),
-    vec2(offsetsD,-offsetsD)
-);
 
 void main() {
-    const vec2 zoomP = vec2(-.7457117,.186142);
-    const float zoomTime = 100.0;
-    float tTime = 9.0 + abs(mod(iTime+zoomTime,zoomTime*2.0)-zoomTime);
-    tTime = (145.5/(.0005*pow(tTime,5.0)));
-    vec2 aspect = vec2(1,iResolution.y/iResolution.x);
-    vec2 mouse = iMouse.xy/iResolution.xy;
-    
-    vec4 outs = vec4(0.0);
-    
-    for(int i = 0; i < 4; i++) {        
-        vec2 fragment = (fragCoord+offsets[i])/iResolution.xy;    
-        vec2 uv = aspect * (zoomP + tTime * (fragment - mouse));
-        outs += mapColor(testMandelbrot(uv));
-    }
-	FragColor = outs/4;
+    vec2 pos = (2.0 * gl_FragCoord.xy - iResolution.xy) / iResolution.y;
+    vec3 dist = sdMandelbrot(pos);
+    FragColor = vec4(dist, 1.0);
 }
