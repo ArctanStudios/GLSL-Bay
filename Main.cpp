@@ -6,10 +6,10 @@
 #include<GLFW/glfw3.h>
 #include<string>
 #include<fstream>
+using namespace std;
 
-const char* title = "GLSL Bay";
-const char* version = "0.0.1";
-const int height = 768;
+string title = "Shadertoy GLSL - 0.0.1 - ";
+const int height = 1024;
 const int width = height * 2;
 
 const char* vertexShaderSource = 
@@ -25,14 +25,14 @@ const char* fragmentShaderSource =
 "FragColor = vec4(gl_FragCoord.x/(2.0f*768.0f), gl_FragCoord.y/768.0f, 0.0f, 1.0f);\n"
 "}\0";
 
-GLuint loadShaderFromFile(std::string path, GLenum shaderType)
+GLuint loadShaderFromFile(string path, GLenum shaderType)
 {
 	GLuint shaderID = 0;
-	std::string shaderString;
-	std::ifstream sourceFile(path.c_str());
+	string shaderString;
+	ifstream sourceFile(path.c_str());
 	if (sourceFile)
 	{
-		shaderString.assign((std::istreambuf_iterator< char >(sourceFile)), std::istreambuf_iterator< char >());
+		shaderString.assign((istreambuf_iterator< char >(sourceFile)), istreambuf_iterator< char >());
 		shaderID = glCreateShader(shaderType);
 		const GLchar* shaderSource = shaderString.c_str();
 		glShaderSource(shaderID, 1, (const GLchar**)&shaderSource, NULL);
@@ -67,7 +67,7 @@ int main() {
 
 	GLFWwindow* window = glfwCreateWindow(width, height, "Loading OpenGL", NULL, NULL);
 	if (window == NULL) {
-		std::cout << "Failed to create GLFW Window" << std::endl;
+		cout << "Failed to create GLFW Window" << endl;
 		glfwTerminate();
 		return -1;
 	}
@@ -120,7 +120,9 @@ int main() {
 		frameCount++;
 		if (currentTime - previousTime >= 1.0)
 		{
-			glfwSetWindowTitle(window, title);
+			string titleTemp = title + to_string(frameCount) + " fps";
+			char* ctitle = &titleTemp[0];
+			glfwSetWindowTitle(window, ctitle);
 			frameCount = 0;
 			previousTime = currentTime;
 		}
@@ -139,6 +141,8 @@ int main() {
 		glfwGetCursorPos(window, &mxpos, &mypos);
 		GLint mouseUniform = glGetUniformLocation(shaderProgram, "iMouse");
 		glUniform4f(mouseUniform, mxpos, mypos, mxpos, mypos);
+		GLint timeUniform = glGetUniformLocation(shaderProgram, "iTime");
+		glUniform1f(timeUniform, currentTime);
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
