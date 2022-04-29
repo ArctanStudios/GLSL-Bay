@@ -4,6 +4,13 @@
 #include<iostream>
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
+#include<string>
+#include<fstream>
+
+const char* title = "GLSL Bay";
+const char* version = "0.0.1";
+const int height = 768;
+const int width = height * 2;
 
 const char* vertexShaderSource = 
 "#version 330 core\n"
@@ -13,11 +20,38 @@ const char* vertexShaderSource =
 "}\0";
 const char* fragmentShaderSource =
 "#version 330 core\n"
-"in vec4 FragCoord;\n"
 "out vec4 FragColor;\n"
 "void main() {\n"
-"FragColor = vec4(FragCoord.x*255, 0.0f, 0.0f, 1.0f);\n"
+"FragColor = vec4(gl_FragCoord.x/(2.0f*768.0f), gl_FragCoord.y/768.0f, 0.0f, 1.0f);\n"
 "}\0";
+
+GLuint loadShaderFromFile(std::string path, GLenum shaderType)
+{
+	GLuint shaderID = 0;
+	std::string shaderString;
+	std::ifstream sourceFile(path.c_str());
+	if (sourceFile)
+	{
+		shaderString.assign((std::istreambuf_iterator< char >(sourceFile)), std::istreambuf_iterator< char >());
+		shaderID = glCreateShader(shaderType);
+		const GLchar* shaderSource = shaderString.c_str();
+		glShaderSource(shaderID, 1, (const GLchar**)&shaderSource, NULL);
+		glCompileShader(shaderID);
+		GLint shaderCompiled = GL_FALSE;
+		glGetShaderiv(shaderID, GL_COMPILE_STATUS, &shaderCompiled);
+		if (shaderCompiled != GL_TRUE)
+		{
+			printf("Unable to compile shader %d!\n\nSource:\n%s\n", shaderID, shaderSource);
+			glDeleteShader(shaderID);
+			shaderID = 0;
+		}
+	}
+	else
+	{
+		printf("Unable to open file %s\n", path.c_str());
+	}
+	return shaderID;
+}
 
 int main() {
 	glfwInit();
@@ -31,7 +65,7 @@ int main() {
 		4.0f, 1.0f, 0.0f
 	};
 
-	GLFWwindow* window = glfwCreateWindow(768*2, 768, "Test", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(width, height, "Loading OpenGL", NULL, NULL);
 	if (window == NULL) {
 		std::cout << "Failed to create GLFW Window" << std::endl;
 		glfwTerminate();
@@ -40,15 +74,17 @@ int main() {
 	glfwMakeContextCurrent(window);
 
 	gladLoadGL();
-	glViewport(0, 0, 768*2, 768);
+	glViewport(0, 0, width, height);
 
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
 	glCompileShader(vertexShader);
 
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
+	//GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	//glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+	//glCompileShader(fragmentShader);
+
+	GLuint fragmentShader = loadShaderFromFile("assets\\base.glsl", GL_FRAGMENT_SHADER);
 
 	GLuint shaderProgram = glCreateProgram();
 	glAttachShader(shaderProgram, vertexShader);
@@ -74,9 +110,21 @@ int main() {
 	ImGui::StyleColorsDark();
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 330");
-	ImFont* firacode = io.Fonts->AddFontFromFileTTF("assets\\FiraCode-Regular.ttf", 16);
+	ImFont* firacode = io.Fonts -> AddFontFromFileTTF("assets\\FiraCode-Regular.ttf", 16);
+
+	double previousTime = glfwGetTime();
+	int frameCount = 0;
 
 	while (!glfwWindowShouldClose(window)) {
+		double currentTime = glfwGetTime();
+		frameCount++;
+		if (currentTime - previousTime >= 1.0)
+		{
+			glfwSetWindowTitle(window, title);
+			frameCount = 0;
+			previousTime = currentTime;
+		}
+
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
@@ -85,6 +133,12 @@ int main() {
 		ImGui::NewFrame();
 
 		glUseProgram(shaderProgram);
+		GLint resUniform = glGetUniformLocation(shaderProgram, "iResolution");
+		glUniform3f(resUniform, width, height, width / height);
+		double mxpos, mypos;
+		glfwGetCursorPos(window, &mxpos, &mypos);
+		GLint mouseUniform = glGetUniformLocation(shaderProgram, "iMouse");
+		glUniform4f(mouseUniform, mxpos, mypos, mxpos, mypos);
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 

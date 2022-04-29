@@ -75,9 +75,4 @@
       <Filter>Header Files\imgui</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <Font Include="assets\FiraCode-Regular.ttf">
-      <Filter>Resource Files</Filter>
-    </Font>
-  </ItemGroup>
 </Project>
