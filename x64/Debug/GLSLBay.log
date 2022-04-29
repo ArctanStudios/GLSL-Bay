@@ -1,4 +1,9 @@
-﻿  glad.c
+﻿  Main.cpp
+C:\Users\taylo\source\repos\GLSLBay\Main.cpp(144,50): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\taylo\source\repos\GLSLBay\Main.cpp(144,43): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\taylo\source\repos\GLSLBay\Main.cpp(144,36): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\taylo\source\repos\GLSLBay\Main.cpp(144,29): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\taylo\source\repos\GLSLBay\Main.cpp(146,28): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
   imgui.cpp
   imgui_demo.cpp
   imgui_draw.cpp
@@ -6,13 +11,8 @@
   imgui_impl_opengl3.cpp
   imgui_tables.cpp
   imgui_widgets.cpp
-  Main.cpp
-C:\Users\taylo\source\repos\GLSLBay\Main.cpp(143,50): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\taylo\source\repos\GLSLBay\Main.cpp(143,43): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\taylo\source\repos\GLSLBay\Main.cpp(143,36): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\taylo\source\repos\GLSLBay\Main.cpp(143,29): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\taylo\source\repos\GLSLBay\Main.cpp(145,28): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
   Generating Code...
+  LINK : C:\Users\taylo\source\repos\GLSLBay\x64\Debug\GLSLBay.exe not found or not built by the last incremental link; performing full link
 glfw3.lib(init.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(init.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
 glfw3.lib(monitor.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(monitor.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
 glfw3.lib(window.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(window.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
@@ -28,9 +28,4 @@ glfw3.lib(win32_joystick.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found w
 glfw3.lib(wgl_context.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(wgl_context.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
 glfw3.lib(egl_context.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(egl_context.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
 glfw3.lib(osmesa_context.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(osmesa_context.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
-LINK : warning LNK4098: defaultlib 'MSVCRTD' conflicts with use of other libs; use /NODEFAULTLIB:library
-Main.obj : error LNK2019: unresolved external symbol __imp__invalid_parameter referenced in function "void * __cdecl std::_Allocate_manually_vector_aligned<struct std::_Default_allocate_traits>(unsigned __int64)" (??$_Allocate_manually_vector_aligned@U_Default_allocate_traits@std@@@std@@YAPEAX_K@Z)
-Main.obj : error LNK2019: unresolved external symbol __imp__CrtDbgReport referenced in function "void * __cdecl std::_Allocate_manually_vector_aligned<struct std::_Default_allocate_traits>(unsigned __int64)" (??$_Allocate_manually_vector_aligned@U_Default_allocate_traits@std@@@std@@YAPEAX_K@Z)
-msvcprtd.lib(locale0_implib.obj) : error LNK2019: unresolved external symbol __imp__free_dbg referenced in function "public: static void __cdecl std::_Fac_node::operator delete(void *)" (??3_Fac_node@std@@SAXPEAX@Z)
-msvcprtd.lib(locale0_implib.obj) : error LNK2019: unresolved external symbol __imp__malloc_dbg referenced in function "public: static void * __cdecl std::_Fac_node::operator new(unsigned __int64)" (??2_Fac_node@std@@SAPEAX_K@Z)
-C:\Users\taylo\source\repos\GLSLBay\x64\Debug\GLSLBay.exe : fatal error LNK1120: 4 unresolved externals
+  GLSLBay.vcxproj -> C:\Users\taylo\source\repos\GLSLBay\x64\Debug\GLSLBay.exe

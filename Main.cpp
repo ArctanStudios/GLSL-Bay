@@ -1,11 +1,12 @@
+#include"imgui.h"
+#include"imgui_impl_glfw.h"
+#include"imgui_impl_opengl3.h"
 #include<iostream>
+#include<glad/glad.h>
+#include<GLFW/glfw3.h>
 #include<string>
 #include<fstream>
-#include "Libraries/include/glad/glad.h"
-#include "Libraries/include/GLFW/glfw3.h"
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.cpp"
-#include "imgui/imgui_impl_opengl3.h"
+using namespace std;
 using namespace std;
 
 string title = "Shadertoy GLSL - 0.0.1 - ";
