@@ -60,6 +60,6 @@ void main() {
         FragColor = vec4(0.0, 0.0, 0.0, 0.0);
 		return;
     }
-    vec3 p = eye + dist * dir;
-    FragColor = vec4(p, 1.0);
+    vec3 pos = eye + dist * dir;
+    FragColor = vec4(pos, 1.0);
 }

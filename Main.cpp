@@ -149,6 +149,10 @@ int main() {
 
 		ImGui::PushFont(firacode);
 		ImGui::Begin("GLSL ImGui Test Window");
+		//string shader;
+		//if (ImGui::InputText("Asset Name: ", &shader)) {
+
+		//}
 		ImGui::Text("Test text");
 		ImGui::PopFont();
 		ImGui::End();
