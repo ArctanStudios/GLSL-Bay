@@ -11,6 +11,25 @@ const float MIN_DIST = 0.0;
 const float MAX_DIST = 100.0;
 const float EPSILON = 0.0001;
 
+const int aoIter = 8;
+const float aoDist = 0.07;
+const float aoPower = 2.0;
+
+const vec3 aoDir[12] = vec3[12](
+	vec3(0.357407, 0.357407, 0.862856),
+	vec3(0.357407, 0.862856, 0.357407),
+	vec3(0.862856, 0.357407, 0.357407),
+	vec3(-0.357407, 0.357407, 0.862856),
+	vec3(-0.357407, 0.862856, 0.357407),
+	vec3(-0.862856, 0.357407, 0.357407),
+	vec3(0.357407, -0.357407, 0.862856),
+	vec3(0.357407, -0.862856, 0.357407),
+	vec3(0.862856, -0.357407, 0.357407),
+	vec3(-0.357407, -0.357407, 0.862856),
+	vec3(-0.357407, -0.862856, 0.357407),
+	vec3(-0.862856, -0.357407, 0.357407)
+);
+
 mat3 rotateX(float theta) {
     float c = cos(theta);
     float s = sin(theta);
@@ -48,7 +67,7 @@ float sdMandelbrot(vec2 p) {
     bool exterior = true;
     float r2;
     float n = 0.0;
-    for( int i = 0; i<1024; i++ ) {
+    for(int i = 0; i<256; i++) {
         // dz -> 2·z·dz + 1
         dz = 2.0*vec2(z.x*dz.x - z.y*dz.y, z.x*dz.y + z.y*dz.x) + vec2(1.0,0.0);
         // z -> z² + c
@@ -56,7 +75,7 @@ float sdMandelbrot(vec2 p) {
         
         n += 1.0;
         r2 = dot(z,z);
-        if( r2>65536.0 ) {
+        if(r2>65536.0) {
             exterior = true;
             break;
         }
@@ -66,22 +85,20 @@ float sdMandelbrot(vec2 p) {
     return (exterior) ? d : 0.0;
 }
 
-float opExtrussion(vec3 p, float sdf, float h)
-{
+float opExtrussion(vec3 p, float sdf, float h) {
     vec2 w = vec2(sdf, abs(p.z) - h);
   	return min(max(w.x,w.y),0.0) + length(max(w,0.0));
 }
 
 
-vec2 opRevolution(vec3 p, float w)
-{
+vec2 opRevolution(vec3 p, float w) {
     return vec2( length(p.yz) - w, p.x );
 }
 
 float sceneSDF(vec3 samplePoint) {
     // return sdMandelbrot(opRevolution(samplePoint, 0.5));
     samplePoint = rotateY(iTime / 2.0) * samplePoint;
-    return opExtrussion(samplePoint, sdMandelbrot(samplePoint.xy)-1, abs(sdMandelbrot(samplePoint.xy)-1.0));
+    return sdMandelbrot(opRevolution(samplePoint, 1.0));
 }
 
 float shortestDistanceToSurface(vec3 eye, vec3 marchingDirection, float start, float end) {
@@ -120,12 +137,10 @@ mat3 viewMatrix(vec3 eye, vec3 center, vec3 up) {
     return mat3(s, u, -f);
 }
 
-float calcAO(vec3 pos, vec3 nor)
-{
+float calcAO(vec3 pos, vec3 nor) {
 	float occ = 0.0;
     float sca = 1.0;
-    for(int i = 0; i < 5; i++)
-    {
+    for(int i = 0; i < 5; i++) {
         float h = 0.01 + 0.12 * float(i) / 4.0;
         float d = sceneSDF(pos + h * nor);
         occ += (h - d) * sca;
