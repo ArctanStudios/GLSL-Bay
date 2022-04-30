@@ -1,7 +1,1 @@
-﻿  Main.cpp
-C:\Users\taylo\source\repos\GLSLBay\Main.cpp(146,50): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\taylo\source\repos\GLSLBay\Main.cpp(146,43): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\taylo\source\repos\GLSLBay\Main.cpp(146,36): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\taylo\source\repos\GLSLBay\Main.cpp(146,29): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\taylo\source\repos\GLSLBay\Main.cpp(148,28): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-  GLSLBay.vcxproj -> C:\Users\taylo\source\repos\GLSLBay\x64\Debug\GLSLBay.exe
+﻿  GLSLBay.vcxproj -> C:\Users\taylo\source\repos\GLSLBay\x64\Debug\GLSLBay.exe
