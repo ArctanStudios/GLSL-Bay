@@ -26,6 +26,8 @@ const char* fragmentShaderSource =
 "FragColor = vec4(gl_FragCoord.x/(2.0f*768.0f), gl_FragCoord.y/768.0f, 0.0f, 1.0f);\n"
 "}\0";
 
+const ImGuiWindowFlags noResizeFlags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
+
 GLuint loadShaderFromFile(string path, GLenum shaderType)
 {
 	GLuint shaderID = 0;
@@ -145,7 +147,8 @@ int main() {
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		ImGui::PushFont(firacode);
-		ImGui::Begin("GLSL ImGui Test Window");
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, { 120.f, 100.f });
+		ImGui::Begin("Shader Options", (bool*)nullptr, noResizeFlags);
 		string shader;
 		//if (ImGui::InputText("Asset Name: ", &shader)) {
 
@@ -158,7 +161,6 @@ int main() {
 			glDetachShader(shaderProgram, fragmentShader);
 			glDeleteShader(fragmentShader);
 		}
-		ImGui::Text("Test text");
 		ImGui::PopFont();
 		ImGui::End();
 
