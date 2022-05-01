@@ -81,16 +81,13 @@ int main() {
 	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
 	glCompileShader(vertexShader);
 
-	//GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	//glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	//glCompileShader(fragmentShader);
-
 	GLuint fragmentShader = loadShaderFromFile("assets\\round.glsl", GL_FRAGMENT_SHADER);
 
 	GLuint shaderProgram = glCreateProgram();
 	glAttachShader(shaderProgram, vertexShader);
 	glAttachShader(shaderProgram, fragmentShader);
 	glLinkProgram(shaderProgram);
+	glDetachShader(shaderProgram, fragmentShader);
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
@@ -154,47 +151,12 @@ int main() {
 
 		//}
 		if (ImGui::Button("Reload Shader", ImVec2(0, 0))) {
-			glDeleteVertexArrays(1, &VAO);
-			glDeleteBuffers(1, &VBO);
-			glDeleteProgram(shaderProgram);
-			gladLoadGL();
-			glViewport(0, 0, width, height);
-
-			vertexShader = glCreateShader(GL_VERTEX_SHADER);
+			glDetachShader(shaderProgram, fragmentShader);
 			fragmentShader = loadShaderFromFile("assets\\round.glsl", GL_FRAGMENT_SHADER);
-
-			shaderProgram = glCreateProgram();
-			glAttachShader(shaderProgram, vertexShader);
 			glAttachShader(shaderProgram, fragmentShader);
 			glLinkProgram(shaderProgram);
-			glDeleteShader(vertexShader);
+			glDetachShader(shaderProgram, fragmentShader);
 			glDeleteShader(fragmentShader);
-
-			GLuint VAO, VBO;
-			glGenVertexArrays(1, &VAO);
-			glGenBuffers(1, &VBO);
-			glBindVertexArray(VAO);
-			glBindBuffer(GL_ARRAY_BUFFER, VBO);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-			glEnableVertexAttribArray(0);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			glBindVertexArray(0);
-
-			glUseProgram(shaderProgram);
-			GLint resUniform = glGetUniformLocation(shaderProgram, "iResolution");
-			glUniform3f(resUniform, width, height, width / height);
-			double mxpos, mypos;
-			glfwGetCursorPos(window, &mxpos, &mypos);
-			GLint mouseUniform = glGetUniformLocation(shaderProgram, "iMouse");
-			glUniform4f(mouseUniform, mxpos, mypos, mxpos, mypos);
-			GLint timeUniform = glGetUniformLocation(shaderProgram, "iTime");
-			glUniform1f(timeUniform, currentTime);
-			glBindVertexArray(VAO);
-			glDrawArrays(GL_TRIANGLES, 0, 3);
-
-			glfwSwapBuffers(window);
-			glfwPollEvents();
 		}
 		ImGui::Text("Test text");
 		ImGui::PopFont();

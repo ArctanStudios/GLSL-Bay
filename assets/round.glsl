@@ -94,15 +94,12 @@ vec3 mb(vec3 p, float power) {
 	float dr = 1.0;
 	
 	float t0 = 1.0;
-	for(int i = 0; i < 7; ++i) {
+	for(int i = 0; i < 5; ++i) {
 		r = length(z);
 		if(r > 2.0) continue;
 		theta = atan(z.y / z.x);
-        #ifdef phase_shift_on
-		phi = asin(z.z / r) + iTime*0.1;
-        #else
-        phi = asin(z.z / r);
-        #endif
+		phi = asin(z.z / r) + iTime*0.5;
+        // phi = asin(z.z / r);
 		
 		dr = pow(r, power - 1.0) * dr * power + 1.0;
 	
@@ -145,7 +142,7 @@ float sceneSDF(vec3 samplePoint) {
     samplePoint *= rotateY(iTime / 2.0);
     samplePoint *= rotateX(sin(iTime / 5.0));
     // return sdMandelbrot(opRevolution(samplePoint, 1.0)) - 0.01;
-    return f(samplePoint/1.5, 4.0).x - 0.01;
+    return abs(f(samplePoint/1.5, 4.0).x - 0.003);
 }
 
 vec3 opRep(vec3 p, vec3 c) {
@@ -201,7 +198,7 @@ float ao(vec3 p, vec3 n) {
 
 void main() {
 	vec3 dir = rayDirection(45.0, iResolution.xy, gl_FragCoord.xy);
-    vec3 eye = vec3(8.0, 5.0, 7.0);
+    vec3 eye = vec3(8.0, 5.0, 0.0);
     mat3 viewToWorld = viewMatrix(eye, vec3(0.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0));
     vec3 worldDir = viewToWorld * dir;
     float dist = shortestDistanceToSurface(eye, worldDir, MIN_DIST, MAX_DIST);
