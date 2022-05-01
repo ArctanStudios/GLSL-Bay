@@ -1,1 +1,18 @@
-﻿  GLSLBay.vcxproj -> C:\Users\taylo\source\repos\GLSLBay\x64\Debug\GLSLBay.exe
+﻿glad.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+glfw3.lib(init.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(init.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(monitor.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(monitor.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(window.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(window.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(input.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(input.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(win32_window.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_window.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(context.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(context.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(win32_init.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_init.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(win32_monitor.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_monitor.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(win32_time.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_time.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(win32_thread.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_thread.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(vulkan.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(vulkan.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(win32_joystick.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_joystick.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(wgl_context.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(wgl_context.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(egl_context.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(egl_context.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
+glfw3.lib(osmesa_context.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(osmesa_context.obj)' or at 'C:\Users\taylo\source\repos\GLSLBay\x64\Debug\glfw3.pdb'; linking object as if no debug info
+MSVCRTD.lib(exe_winmain.obj) : error LNK2019: unresolved external symbol WinMain referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
+C:\Users\taylo\source\repos\GLSLBay\x64\Debug\GLSLBay.exe : fatal error LNK1120: 1 unresolved externals

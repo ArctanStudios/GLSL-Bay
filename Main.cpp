@@ -54,8 +54,6 @@ GLuint loadShaderFromFile(string path, GLenum shaderType)
 	return shaderID;
 }
 
-
-
 int main() {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -133,9 +131,9 @@ int main() {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		//ImGui_ImplOpenGL3_NewFrame();
-		//ImGui_ImplGlfw_NewFrame();
-		//ImGui::NewFrame();
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
 
 		glUseProgram(shaderProgram);
 		GLint resUniform = glGetUniformLocation(shaderProgram, "iResolution");
@@ -149,18 +147,21 @@ int main() {
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
-		//ImGui::PushFont(firacode);
-		//ImGui::Begin("GLSL ImGui Test Window");
-		//string shader;
+		ImGui::PushFont(firacode);
+		ImGui::Begin("GLSL ImGui Test Window");
+		string shader;
 		//if (ImGui::InputText("Asset Name: ", &shader)) {
 
 		//}
-		//ImGui::Text("Test text");
-		//ImGui::PopFont();
-		//ImGui::End();
+		if (ImGui::Button("Reload Shader", ImVec2(0, 0))) {
 
-		//ImGui::Render();
-		//ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		}
+		ImGui::Text("Test text");
+		ImGui::PopFont();
+		ImGui::End();
+
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

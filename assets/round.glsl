@@ -145,7 +145,7 @@ float sceneSDF(vec3 samplePoint) {
     samplePoint *= rotateY(iTime / 2.0);
     samplePoint *= rotateX(sin(iTime / 5.0));
     // return sdMandelbrot(opRevolution(samplePoint, 1.0)) - 0.01;
-    return f(samplePoint/1.5, 4.0).x - 0.001;
+    return f(samplePoint/1.5, 4.0).x - 0.01;
 }
 
 vec3 opRep(vec3 p, vec3 c) {
