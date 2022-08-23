@@ -7,7 +7,6 @@
 #include<imgui_impl_glfw.h>
 #include<imgui_impl_opengl3.h>
 using namespace std;
-using namespace std;
 
 string title = "Shadertoy GLSL - 0.0.1 - ";
 const int height = 768;
@@ -32,7 +31,7 @@ const char* fragmentShaderBase =
 "uniform vec4 iMouse;\n"
 "uniform float iTime;\n";
 
-const ImGuiWindowFlags noResizeFlags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
+const ImGuiWindowFlags noResizeFlags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize; 
 
 GLuint loadShaderFromFile(string path, GLenum shaderType)
 {
@@ -153,12 +152,13 @@ int main() {
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		ImGui::PushFont(firacode);
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, { 120.f, 100.f });
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, { 250.f, 200.f });
 		ImGui::Begin("Shader Options", (bool*)nullptr, noResizeFlags);
 		string shader = "Test";
-		char* buf;
-		ImGui::InputText("Asset Name: ", buf);
+		static char buf[128] = "assets\\round.glsl";
+		ImGui::InputText("Asset Name: ", buf, IM_ARRAYSIZE(buf));
 		if (ImGui::Button("Reload Shader", ImVec2(0, 0))) {
+			glfwSetTime(0.0);
 			glDetachShader(shaderProgram, fragmentShader);
 			fragmentShader = loadShaderFromFile("assets\\round.glsl", GL_FRAGMENT_SHADER);
 			glAttachShader(shaderProgram, fragmentShader);
