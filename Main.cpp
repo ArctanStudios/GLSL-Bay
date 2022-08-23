@@ -23,8 +23,14 @@ const char* fragmentShaderSource =
 "#version 330 core\n"
 "out vec4 FragColor;\n"
 "void main() {\n"
-"FragColor = vec4(gl_FragCoord.x/(2.0f*768.0f), gl_FragCoord.y/768.0f, 0.0f, 1.0f);\n"
+"FragColor = vec4(gl_FragCoord.x / (2.0f * 768.0f), gl_FragCoord.y / 768.0f, 0.0f, 1.0f);\n"
 "}\0";
+const char* fragmentShaderBase =
+"#version 330 core\n"
+"out vec4 FragColor;\n"
+"uniform vec3 iResolution;\n"
+"uniform vec4 iMouse;\n"
+"uniform float iTime;\n";
 
 const ImGuiWindowFlags noResizeFlags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
 
@@ -149,10 +155,9 @@ int main() {
 		ImGui::PushFont(firacode);
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, { 120.f, 100.f });
 		ImGui::Begin("Shader Options", (bool*)nullptr, noResizeFlags);
-		string shader;
-		//if (ImGui::InputText("Asset Name: ", &shader)) {
-
-		//}
+		string shader = "Test";
+		char* buf;
+		ImGui::InputText("Asset Name: ", buf);
 		if (ImGui::Button("Reload Shader", ImVec2(0, 0))) {
 			glDetachShader(shaderProgram, fragmentShader);
 			fragmentShader = loadShaderFromFile("assets\\round.glsl", GL_FRAGMENT_SHADER);

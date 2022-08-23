@@ -60,6 +60,13 @@ mat3 rotateZ(float theta) {
     );
 }
 
+vec3 rotate(vec3 vec, vec3 theta) {
+    vec *= rotateX(theta.x);
+    vec *= rotateY(theta.y);
+    vec *= rotateZ(theta.z);
+    return vec;
+}
+
 float sdMandelbrot(vec2 p) {
     p.x /= 2.0;
     vec2 c = p;
