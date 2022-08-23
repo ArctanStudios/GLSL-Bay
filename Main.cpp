@@ -10,8 +10,8 @@
 using namespace std;
 
 string title = "Shadertoy GLSL - 0.1.0";
-const int height = 768;
-const int width = height * 2;
+int uheight = 512;
+int uwidth = 1024;
 
 const char* vertexShaderSource =
 "#version 330 core\n"
@@ -23,7 +23,7 @@ const char* fragmentShaderSource =
 "#version 330 core\n"
 "out vec4 FragColor;\n"
 "void main() {\n"
-"FragColor = vec4(gl_FragCoord.x / (2.0f * 768.0f), gl_FragCoord.y / 768.0f, 0.0f, 1.0f);\n"
+"FragColor = vec4(gl_FragCoord.x / 768.0f, gl_FragCoord.y / 768.0f, 0.0f, 1.0f); \n"
 "}\0";
 const char* fragmentShaderBase =
 "#version 330 core\n"
@@ -32,7 +32,7 @@ const char* fragmentShaderBase =
 "uniform vec4 iMouse;\n"
 "uniform float iTime;\n";
 
-const ImGuiWindowFlags noResizeFlags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize; 
+const ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
 
 GLuint loadShaderFromFile(string path, GLenum shaderType)
 {
@@ -74,7 +74,7 @@ int main() {
 		4.0f, 1.0f, 0.0f
 	};
 
-	GLFWwindow* window = glfwCreateWindow(width, height, "Loading OpenGL", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(uwidth, uheight, "Loading OpenGL", NULL, NULL);
 	if (window == NULL) {
 		cout << "Failed to create GLFW Window" << endl;
 		glfwTerminate();
@@ -83,7 +83,7 @@ int main() {
 
 	glfwMakeContextCurrent(window);
 	gladLoadGL();
-	glViewport(0, 0, width, height);
+	glViewport(0, 0, uwidth / 2, uheight);
 
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
@@ -145,7 +145,7 @@ int main() {
 
 		glUseProgram(shaderProgram);
 		GLint resUniform = glGetUniformLocation(shaderProgram, "iResolution");
-		glUniform3f(resUniform, width, height, width / height);
+		glUniform3f(resUniform, uwidth / 2, uheight, uwidth / 2 / uheight);
 		double mxpos, mypos;
 		glfwGetCursorPos(window, &mxpos, &mypos);
 		GLint mouseUniform = glGetUniformLocation(shaderProgram, "iMouse");
@@ -157,7 +157,7 @@ int main() {
 
 		ImGui::PushFont(firacode);
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, { 250.f, 200.f });
-		ImGui::Begin("Shader Options", (bool*)nullptr, noResizeFlags);
+		ImGui::Begin("Shader Options", (bool*)nullptr, windowFlags);
 		string shader = "Test";
 		static char buf[128] = "round";
 		ImGui::Text("Specify Shader from Assets folder");
@@ -193,4 +193,10 @@ int main() {
 	glfwDestroyWindow(window);
 	glfwTerminate();
 	return 0;
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+	glViewport(0, 0, width, height);
+	uwidth = uwidth;
+	uheight = uheight;
 }
