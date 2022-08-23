@@ -6,9 +6,10 @@
 #include<imgui.h>
 #include<imgui_impl_glfw.h>
 #include<imgui_impl_opengl3.h>
+#include<igcte/TextEditor.h>
 using namespace std;
 
-string title = "Shadertoy GLSL - 0.0.1 - ";
+string title = "Shadertoy GLSL - 0.1.0";
 const int height = 768;
 const int width = height * 2;
 
@@ -118,16 +119,19 @@ int main() {
 	ImFont* firacode = io.Fonts->AddFontFromFileTTF("assets\\FiraCode-Regular.ttf", 16);
 
 	double previousTime = glfwGetTime();
+	int totalFrames = 0;
+	int fps = 0;
 	int frameCount = 0;
 
 	while (!glfwWindowShouldClose(window)) {
 		double currentTime = glfwGetTime();
+		totalFrames++;
 		frameCount++;
-		if (currentTime - previousTime >= 1.0)
-		{
-			string titleTemp = title + to_string(frameCount) + " fps";
-			char* ctitle = &titleTemp[0];
-			glfwSetWindowTitle(window, ctitle);
+		string titleTemp = title + " - " + to_string(fps) + " fps - frame " + to_string(totalFrames);
+		char* ctitle = &titleTemp[0];
+		glfwSetWindowTitle(window, ctitle);
+		if (currentTime - previousTime >= 1.0) {
+			fps = frameCount;
 			frameCount = 0;
 			previousTime = currentTime;
 		}
@@ -155,12 +159,14 @@ int main() {
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, { 250.f, 200.f });
 		ImGui::Begin("Shader Options", (bool*)nullptr, noResizeFlags);
 		string shader = "Test";
-		static char buf[128] = "assets\\round.glsl";
+		static char buf[128] = "round";
+		ImGui::Text("Specify Shader from Assets folder");
 		ImGui::InputText("Asset Name: ", buf, IM_ARRAYSIZE(buf));
 		if (ImGui::Button("Reload Shader", ImVec2(0, 0))) {
 			glfwSetTime(0.0);
+			totalFrames = 0;
 			glDetachShader(shaderProgram, fragmentShader);
-			fragmentShader = loadShaderFromFile("assets\\round.glsl", GL_FRAGMENT_SHADER);
+			fragmentShader = loadShaderFromFile("assets\\" + string(buf) + ".glsl", GL_FRAGMENT_SHADER);
 			glAttachShader(shaderProgram, fragmentShader);
 			glLinkProgram(shaderProgram);
 			glDetachShader(shaderProgram, fragmentShader);
