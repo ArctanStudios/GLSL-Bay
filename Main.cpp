@@ -62,7 +62,7 @@ GLuint loadShaderFromFile(string path, GLenum shaderType)
 	return shaderID;
 }
 
-int main() {
+int WinMain() {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -196,6 +196,7 @@ int main() {
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+	std::cout << "\n\nWorking\n\n";
 	glViewport(0, 0, width, height);
 	uwidth = uwidth;
 	uheight = uheight;
