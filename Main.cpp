@@ -198,6 +198,6 @@ int WinMain() {
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	std::cout << "\n\nWorking\n\n";
 	glViewport(0, 0, width, height);
-	uwidth = uwidth;
-	uheight = uheight;
+	uwidth = width;
+	uheight = height;
 }
